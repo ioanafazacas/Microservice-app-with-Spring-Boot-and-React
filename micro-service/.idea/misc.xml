@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/config-server/pom.xml" />
         <option value="$PROJECT_DIR$/flowerMicroservice/pom.xml" />
         <option value="$PROJECT_DIR$/stocMicroservice/pom.xml" />
+        <option value="$PROJECT_DIR$/shopMicroservice/pom.xml" />
       </list>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />

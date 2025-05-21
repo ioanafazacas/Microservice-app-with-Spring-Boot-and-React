@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/config-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/discovery/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/flowerMicroservice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shopMicroservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/stocMicroservice/src/main/java" charset="UTF-8" />
   </component>
 </project>

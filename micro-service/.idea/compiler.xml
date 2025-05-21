@@ -11,6 +11,15 @@
         <module name="config-server" />
         <module name="discovery" />
       </profile>
+      <profile name="Annotation profile for shopMicroservice" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+        </processorPath>
+        <module name="shopMicroservice" />
+      </profile>
       <profile name="Annotation profile for stocMicroservice" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -29,6 +38,7 @@
       <module name="config-server" options="-parameters" />
       <module name="discovery" options="-parameters" />
       <module name="flowerMicroservice" options="-parameters" />
+      <module name="shopMicroservice" options="-parameters" />
       <module name="stocMicroservice" options="-parameters" />
     </option>
   </component>
