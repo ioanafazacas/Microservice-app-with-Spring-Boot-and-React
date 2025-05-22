@@ -1,5 +1,7 @@
 package com.example.stocMicroservice.controller;
 
+import com.example.stocMicroservice.domain.dto.FlowerColorsDTO;
+import com.example.stocMicroservice.domain.dto.ShopColorsDTO;
 import com.example.stocMicroservice.domain.dto.StockDTO;
 import com.example.stocMicroservice.service.StockService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -31,14 +34,30 @@ public class StockController {
         return stockService.findAll();
     }
 
+    //asta ii legatura ciudata care contine ...
+    @GetMapping("/flower/all")
+    public List<FlowerColorsDTO> getAllFlowersWithColor() {
+        return stockService.findAllFlowersWithColor();
+    }
+
     @GetMapping("shop/{shopId}")
-    public List<StockDTO> getAllFlowersByShop(@PathVariable int shopId){
+    public List<StockDTO> getAllStocksByShop(@PathVariable int shopId){
         return stockService.findAllByShopId(shopId);
     }
 
-    @GetMapping("flower-colors/{flowerId}")
+    @GetMapping("flower/{flowerId}")
+    public List<StockDTO> getAllStocksByFlower(@PathVariable int flowerId){
+        return stockService.findAllByFlowerId(flowerId);
+    }
+
+    //trebuie implementat poate pentru partea cu nume
+    @GetMapping("flower-color/{flowerId}")
     public List<StockDTO> getAllColorsByFlower(@PathVariable int flowerId){
         return stockService.findAllByFlowerId(flowerId);
+    }
+    @GetMapping("flower-shops/{name}")
+    public List<ShopColorsDTO> findAllShopsForFlower(@PathVariable String name){
+        return stockService.findAllShopsForFlower(name);
     }
 
     @GetMapping("/shop/{shopId}/flower/{flowerId}")
