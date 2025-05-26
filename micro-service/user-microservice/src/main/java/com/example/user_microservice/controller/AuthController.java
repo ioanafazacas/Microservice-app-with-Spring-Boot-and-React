@@ -47,13 +47,28 @@ public class AuthController {
         return ResponseEntity.ok(userDto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("/all/users")
+    public ResponseEntity<List<UserDTO>> getAllUser() {
+        List<UserDTO> userDtos = authService.getAllUsers();
+        return ResponseEntity.ok(userDtos);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("/all/byRole/{roleId}")
+    public ResponseEntity<List<UserDTO>> getAllClients(@PathVariable int roleId) {
+        List<UserDTO> userDtos = authService.getAllByRole(roleId);
+        return ResponseEntity.ok(userDtos);
+    }
+
+
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable int id){
         return ResponseEntity.ok(authService.deleteById(id));
     }
 
-    @PreAuthorize("hasAnyRole()")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("update/{id}")
     public ResponseEntity<String> updateFlower(@PathVariable int id, @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(authService.updateUser(id,userDTO));

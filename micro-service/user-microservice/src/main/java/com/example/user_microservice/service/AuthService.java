@@ -6,6 +6,7 @@ import com.example.user_microservice.domain.dto.LoginRequestDTO;
 import com.example.user_microservice.domain.dto.RoleDTO;
 import com.example.user_microservice.domain.dto.UserCreateDTO;
 import com.example.user_microservice.domain.dto.UserDTO;
+import com.example.user_microservice.domain.mapper.UserMapper;
 import com.example.user_microservice.infrastructure.config.JwtUtil;
 import com.example.user_microservice.repository.RoleRepository;
 import com.example.user_microservice.repository.UserRepository;
@@ -15,14 +16,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepo;
+    private final RoleRepository roleRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final UserMapper userMapper;
 
     public String register(UserCreateDTO dto, Role role) {
         User user = User.builder()
@@ -72,8 +76,34 @@ public class AuthService {
         if (existing.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Can not update. User not found with id: " + id);
         }
+        String newPassword = userDTO.getPassword();
+        String finalPassword;
 
-        userRepo.updateUser(id, userDTO.getName(), userDTO.getEmail(), userDTO.getPassword());
+        if (!passwordEncoder.matches(newPassword, existing.get().getPassword())) {
+            finalPassword = passwordEncoder.encode(newPassword); // s-a schimbat
+        } else {
+            finalPassword = existing.get().getPassword(); // e deja criptată și la fel
+        }
+
+        Role role = Role.builder().
+                id(userDTO.getRole().getId()).
+                role(userDTO.getRole().getRole())
+                .build();
+        userRepo.updateUser(id, userDTO.getName(), userDTO.getEmail(), finalPassword, role);
         return "User Actualizat cu succes.";
+    }
+
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepo.findAll();
+        return userMapper.userListEntityToDto(users);
+    }
+
+    public List<UserDTO> getAllByRole(int roleId) {
+        Optional<Role> role = roleRepo.findById(roleId);
+        if (role.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Can not find role with id: " + roleId);
+        }
+        List<User> users = userRepo.findByRole(role.get());
+        return userMapper.userListEntityToDto(users);
     }
 }
