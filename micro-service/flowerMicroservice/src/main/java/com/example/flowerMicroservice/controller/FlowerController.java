@@ -1,7 +1,7 @@
 package com.example.flowerMicroservice.controller;
 
 import com.example.flowerMicroservice.domain.dto.FlowerDTO;
-import com.example.flowerMicroservice.domain.dto.FlowerResponeDTO;
+
 import com.example.flowerMicroservice.service.FlowerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

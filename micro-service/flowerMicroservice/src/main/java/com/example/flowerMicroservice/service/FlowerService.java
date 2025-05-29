@@ -1,14 +1,13 @@
 package com.example.flowerMicroservice.service;
 
 import com.example.flowerMicroservice.domain.Flower;
-import com.example.flowerMicroservice.domain.dto.FlowerResponeDTO;
-import com.example.flowerMicroservice.domain.dto.StockDTO;
-import com.example.flowerMicroservice.infrastructure.repository.FlowerRepository;
+
 import com.example.flowerMicroservice.domain.dto.FlowerDTO;
 import com.example.flowerMicroservice.domain.mapper.FlowerMapper;
+import com.example.flowerMicroservice.infrastructure.repository.RepoAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,7 +18,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class FlowerService {
-    private final FlowerRepository flowerRepository;
+    //private final FlowerRepository flowerRepository;
+    private final RepoAdapter flowerRepository;
     private final FlowerMapper mapper;
     private final RestTemplate restTemplate;
     public void save(FlowerDTO flower){
@@ -56,8 +56,9 @@ public class FlowerService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Can not update. Flower not found with id: " + id);
         }
 
-        flowerRepository.updateFlower(id, updatedFlower.getName(), updatedFlower.getPurchase_price(),
-                updatedFlower.getSale_price(), updatedFlower.getImage());
+        /*flowerRepository.updateFlower(id, updatedFlower.getName(), updatedFlower.getPurchase_price(),
+                updatedFlower.getSale_price(), updatedFlower.getImage());*/
+        flowerRepository.updateFlower(id, mapper.flowerDtoToEntity(updatedFlower));
     }
 /*
     public FlowerResponeDTO getFlowerWithStock(int flowerId){
