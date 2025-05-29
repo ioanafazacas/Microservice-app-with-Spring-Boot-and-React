@@ -1,7 +1,9 @@
 package com.example.shopMicroservice.service;
 
+import com.example.shopMicroservice.domain.dto.EmployeeDTO;
 import com.example.shopMicroservice.domain.entity.Employee;
 import com.example.shopMicroservice.domain.entity.Shop;
+import com.example.shopMicroservice.domain.mapper.ShopMapper;
 import com.example.shopMicroservice.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private ShopMapper shopMapper;
 
     public List<Employee> findAll(){
         return employeeRepository.findAll();
@@ -41,11 +45,18 @@ public class EmployeeService {
         employeeRepository.deleteByUserId(userId);
     }
 
-    public Employee findByUserId(int userId){
+    public EmployeeDTO findByUserId(int userId){
         Optional<Employee> employeeOptional = employeeRepository.findByUserId(userId);
         if(employeeOptional.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee not found with user_id: " + userId);
         }
-        return employeeOptional.get();
+        Employee employee = employeeOptional.get();
+        EmployeeDTO employeeDTO= EmployeeDTO.builder()
+                .id(employee.getId())
+                .user_id(employee.getUser_id())
+                .shop(shopMapper.shopEntityToDto(employee.getShop()))
+                .build();
+        System.out.println(employeeDTO);
+        return employeeDTO;
     }
 }

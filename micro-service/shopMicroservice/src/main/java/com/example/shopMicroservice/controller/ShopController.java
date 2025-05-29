@@ -1,5 +1,6 @@
 package com.example.shopMicroservice.controller;
 
+import com.example.shopMicroservice.domain.dto.EmployeeDTO;
 import com.example.shopMicroservice.domain.dto.ShopDTO;
 import com.example.shopMicroservice.domain.entity.Employee;
 import com.example.shopMicroservice.service.EmployeeService;
@@ -37,7 +38,7 @@ public class ShopController {
     }
 
     @GetMapping("/employee/user/{id}")
-    public ResponseEntity<Employee> getEmployeeByUserId(@PathVariable int id) {
+    public ResponseEntity<EmployeeDTO> getEmployeeByUserId(@PathVariable int id) {
         return ResponseEntity.ok(employeeService.findByUserId(id));
     }
 

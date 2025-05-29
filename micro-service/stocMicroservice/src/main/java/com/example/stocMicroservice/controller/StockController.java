@@ -77,10 +77,11 @@ public class StockController {
     @PutMapping("sale/{id}")
     public void sale(@PathVariable int id){
         stockService.saleFlower(id);
+        System.out.println("s-a vandut "+ id);
     }
 
     @PutMapping("update/{id}")
-    public void updateStock(@PathVariable int id, @RequestBody StockDTO stockDTO){
-        stockService.updateQuantity(id,stockDTO.getQuantity());
+    public void updateStock(@PathVariable int id, @RequestBody int  quantity){
+        stockService.updateQuantity(id,quantity);
     }
 }
